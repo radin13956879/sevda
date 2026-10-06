@@ -1,0 +1,706 @@
+```html
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>سودا</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --pink: #e99ab9;
+            --dark-pink: #bd638b;
+            --text: #503b47;
+            --soft: #fff7fa;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            overflow: hidden;
+            font-family: "Vazirmatn", Tahoma, sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at 15% 20%, rgba(255,255,255,.9), transparent 25%),
+                radial-gradient(circle at 85% 15%, rgba(255,210,228,.7), transparent 30%),
+                radial-gradient(circle at 50% 100%, rgba(224,197,255,.65), transparent 35%),
+                linear-gradient(135deg, #f9dce8, #eadcf7 55%, #dcecff);
+        }
+
+        /* ---------- صفحه ورود ---------- */
+
+        #loginPage {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 25px;
+        }
+
+        .login-card {
+            width: min(430px, 100%);
+            padding: 50px 38px;
+            text-align: center;
+
+            background: rgba(255,255,255,.58);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+
+            border: 1px solid rgba(255,255,255,.75);
+            border-radius: 35px;
+
+            box-shadow:
+                0 30px 80px rgba(120,70,100,.18),
+                inset 0 1px 0 rgba(255,255,255,.8);
+
+            animation: loginAppear 1s ease;
+        }
+
+        .lock-flower {
+            font-size: 65px;
+            margin-bottom: 10px;
+            animation: gentleFloat 3s ease-in-out infinite;
+        }
+
+        .login-card h1 {
+            margin: 0;
+            font-size: 31px;
+            font-weight: 600;
+            color: #a9537b;
+        }
+
+        .login-card p {
+            margin: 12px 0 30px;
+            color: #765e69;
+            font-size: 14px;
+        }
+
+        .password-box {
+            position: relative;
+        }
+
+        #password {
+            width: 100%;
+            height: 58px;
+            border: 1px solid rgba(190,100,140,.25);
+            border-radius: 18px;
+            outline: none;
+            background: rgba(255,255,255,.82);
+
+            text-align: center;
+            font-family: inherit;
+            font-size: 20px;
+            color: #59414d;
+
+            transition: .3s;
+        }
+
+        #password:focus {
+            border-color: var(--pink);
+            box-shadow: 0 0 0 4px rgba(233,154,185,.13);
+        }
+
+        .enter-btn {
+            width: 100%;
+            height: 58px;
+            margin-top: 14px;
+
+            border: none;
+            border-radius: 18px;
+
+            font-family: inherit;
+            font-size: 17px;
+            font-weight: 500;
+            color: white;
+
+            cursor: pointer;
+
+            background: linear-gradient(
+                135deg,
+                #df8faf,
+                #bd78b8
+            );
+
+            box-shadow: 0 12px 30px rgba(180,90,140,.22);
+            transition: .3s;
+        }
+
+        .enter-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 35px rgba(180,90,140,.3);
+        }
+
+        #error {
+            display: none;
+            margin-top: 13px;
+            color: #c45c78;
+            font-size: 13px;
+        }
+
+        /* ---------- صفحه اصلی ---------- */
+
+        #surprisePage {
+            display: none;
+            position: relative;
+
+            width: 100%;
+            min-height: 100vh;
+
+            align-items: center;
+            justify-content: center;
+
+            padding: 25px;
+        }
+
+        .main-card {
+            position: relative;
+            z-index: 20;
+
+            width: min(720px, 100%);
+            max-height: 90vh;
+            overflow-y: auto;
+
+            padding: 55px 60px;
+
+            text-align: center;
+
+            background: rgba(255,255,255,.63);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+
+            border: 1px solid rgba(255,255,255,.8);
+            border-radius: 40px;
+
+            box-shadow:
+                0 35px 100px rgba(100,60,110,.2),
+                inset 0 1px 0 rgba(255,255,255,.9);
+
+            animation: cardAppear 1.3s cubic-bezier(.2,.8,.2,1);
+        }
+
+        .main-card::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .main-card::-webkit-scrollbar-thumb {
+            background: #dfaac2;
+            border-radius: 10px;
+        }
+
+        .flower-icon {
+            font-size: 76px;
+            line-height: 1;
+
+            filter: drop-shadow(0 10px 15px rgba(190,100,140,.15));
+
+            animation: gentleFloat 3.5s ease-in-out infinite;
+        }
+
+        .main-card h1 {
+            margin: 20px 0 5px;
+
+            font-size: 42px;
+            font-weight: 600;
+
+            color: #b45c84;
+        }
+
+        .small-line {
+            width: 55px;
+            height: 3px;
+            margin: 18px auto 28px;
+
+            border-radius: 10px;
+
+            background: linear-gradient(
+                90deg,
+                #e6a1bd,
+                #c68bcb
+            );
+        }
+
+        .message {
+            font-size: 17px;
+            line-height: 2.35;
+            font-weight: 400;
+            color: #59434e;
+        }
+
+        .message .highlight {
+            color: #b45c84;
+            font-weight: 600;
+        }
+
+        .signature {
+            margin-top: 35px;
+
+            font-size: 16px;
+            color: #a75b7d;
+        }
+
+        .signature span {
+            display: block;
+            margin-top: 8px;
+
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        /* ---------- عناصر شناور ---------- */
+
+        .falling {
+            position: fixed;
+            top: -80px;
+
+            z-index: 10;
+            pointer-events: none;
+
+            user-select: none;
+
+            animation:
+                fallDown linear forwards,
+                swing ease-in-out infinite alternate;
+        }
+
+        @keyframes fallDown {
+            from {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            to {
+                transform: translateY(115vh) rotate(360deg);
+                opacity: .85;
+            }
+        }
+
+        @keyframes swing {
+            from {
+                margin-left: -20px;
+            }
+
+            to {
+                margin-left: 20px;
+            }
+        }
+
+        .background-heart {
+            position: fixed;
+            z-index: 2;
+            pointer-events: none;
+
+            color: rgba(190,100,145,.22);
+
+            animation: heartFloat 6s ease-in-out infinite;
+        }
+
+        @keyframes heartFloat {
+            0%, 100% {
+                transform: translateY(0) rotate(-5deg);
+            }
+
+            50% {
+                transform: translateY(-25px) rotate(5deg);
+            }
+        }
+
+        /* ---------- انیمیشن‌ها ---------- */
+
+        @keyframes loginAppear {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(.94);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes cardAppear {
+            0% {
+                opacity: 0;
+                transform: translateY(50px) scale(.9);
+            }
+
+            70% {
+                transform: translateY(-5px) scale(1.01);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes gentleFloat {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* ---------- موبایل ---------- */
+
+        @media (max-width: 600px) {
+
+            .login-card {
+                padding: 40px 24px;
+            }
+
+            .main-card {
+                padding: 40px 23px;
+                max-height: 88vh;
+                border-radius: 30px;
+            }
+
+            .main-card h1 {
+                font-size: 34px;
+            }
+
+            .flower-icon {
+                font-size: 65px;
+            }
+
+            .message {
+                font-size: 15px;
+                line-height: 2.25;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+
+<!-- =====================================================
+     صفحه ورود
+===================================================== -->
+
+<div id="loginPage">
+
+    <div class="login-card">
+
+        <div class="lock-flower">
+            🌷
+        </div>
+
+        <h1>یک چیز کوچیک برای تو</h1>
+
+        <p>
+            قبل از اینکه وارد بشی، رمز اینجا رو فقط خودت باید بدونی...
+        </p>
+
+        <div class="password-box">
+
+            <input
+                id="password"
+                type="password"
+                maxlength="4"
+                inputmode="numeric"
+                placeholder="رمز"
+            >
+
+        </div>
+
+        <button
+            class="enter-btn"
+            onclick="checkPassword()"
+        >
+            باز کردن سورپرایز ✨
+        </button>
+
+        <div id="error">
+            فکر کنم رمز رو اشتباه زدی :)
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     صفحه سورپرایز
+===================================================== -->
+
+<div id="surprisePage">
+
+    <div class="main-card">
+
+        <div class="flower-icon">
+            🌷
+        </div>
+
+        <h1>سودا</h1>
+
+        <div class="small-line"></div>
+
+        <div class="message">
+
+            سودا جان،
+
+            <br><br>
+
+            راستش نمی‌دونم چطور باید همه‌ی حرف‌هایی رو که توی ذهنمه
+            توی چند خط جا بدم؛
+            ولی می‌دونم دلم می‌خواست برای تو یه چیزی بسازم
+            که وقتی می‌بینیش، حتی برای چند لحظه هم که شده
+            <span class="highlight">لبخند بزنی.</span>
+
+            <br><br>
+
+            شاید این صفحه در ظاهر فقط چندتا گل و پاستیل باشه،
+            ولی برای من یه معنی خیلی قشنگ‌تر داره؛
+            اینکه یه گوشه‌ی کوچیک از این دنیای شلوغ رو
+            فقط برای <span class="highlight">تو</span> کنار گذاشتم.
+
+            <br><br>
+
+            از بین تمام آدم‌هایی که ممکن بود سر راه هم قرار بگیرن،
+            خوشحالم که تو یکی از آدم‌های مهم زندگی من شدی.
+            بعضی آدم‌ها بدون اینکه خودشون بدونن،
+            می‌تونن حال یک روز معمولی رو بهتر کنن؛
+            تو برای من از همون آدم‌هایی.
+
+            <br><br>
+
+            نمی‌خوام اینجا حرف‌های خیلی عجیب و بزرگ بزنم.
+            فقط می‌خوام بدونی که بودنت برای من باارزشه،
+            حرف زدنت، خندیدنت،
+            حتی همون لحظه‌های ساده‌ای که شاید خودت اصلاً بهشون فکر نکنی،
+            برای من می‌تونن قشنگ باشن.
+
+            <br><br>
+
+            این گل‌ها برای اینن که یادت بندازن
+            بعضی چیزهای قشنگ رو باید جشن گرفت؛
+            و این پاستیل‌ها هم برای اینن که
+            زندگی همیشه یه ذره شیرینی بیشتر لازم داره. 🍬🌸
+
+            <br><br>
+
+            <span class="highlight">
+                امیدوارم همیشه دلیلی برای لبخند زدن داشته باشی،
+                حتی در روزهایی که همه‌چیز اون‌طور که می‌خوای پیش نمی‌ره.
+            </span>
+
+            <br><br>
+
+
+            <br><br>
+
+            <span class="highlight">
+            </span>
+
+        </div>
+
+        <div class="signature">
+
+            با کلی حس خوب،
+            فقط برای تو
+
+            <span>
+                ❤️
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    /* =====================================================
+       رمز ورود
+       سال تولد سودا
+    ===================================================== */
+
+    const BIRTH_YEAR = "1386";
+
+
+    /* =====================================================
+       بررسی رمز
+    ===================================================== */
+
+    function checkPassword() {
+
+        const input =
+            document.getElementById("password");
+
+        const error =
+            document.getElementById("error");
+
+        if (input.value === BIRTH_YEAR) {
+
+            document.getElementById("loginPage")
+                .style.display = "none";
+
+            document.getElementById("surprisePage")
+                .style.display = "flex";
+
+            startSurprise();
+
+        } else {
+
+            error.style.display = "block";
+
+            input.value = "";
+
+            input.focus();
+
+        }
+    }
+
+
+    /* Enter */
+
+    document
+        .getElementById("password")
+        .addEventListener("keydown", function(event) {
+
+            if (event.key === "Enter") {
+                checkPassword();
+            }
+
+        });
+
+
+    /* =====================================================
+       شروع افکت‌ها
+    ===================================================== */
+
+    function startSurprise() {
+
+        /* گل‌ها */
+
+        setInterval(() => {
+            createFalling("🌸");
+        }, 280);
+
+        setInterval(() => {
+            createFalling("🌷");
+        }, 550);
+
+        setInterval(() => {
+            createFalling("🌹");
+        }, 850);
+
+
+        /* پاستیل‌ها */
+
+        setInterval(() => {
+
+            const candies = [
+                "🍬",
+                "🍭",
+                "🍡",
+                "🍬"
+            ];
+
+            const candy =
+                candies[
+                    Math.floor(
+                        Math.random() * candies.length
+                    )
+                ];
+
+            createFalling(candy);
+
+        }, 500);
+
+
+        /* قلب‌های پس‌زمینه */
+
+        createBackgroundHearts();
+    }
+
+
+    /* =====================================================
+       ساخت گل و پاستیل
+    ===================================================== */
+
+    function createFalling(symbol) {
+
+        const item =
+            document.createElement("div");
+
+        item.className = "falling";
+
+        item.innerText = symbol;
+
+        item.style.left =
+            Math.random() * 100 + "vw";
+
+        item.style.fontSize =
+            (18 + Math.random() * 20) + "px";
+
+        const duration =
+            5 + Math.random() * 5;
+
+        item.style.animationDuration =
+            duration + "s, " +
+            (2 + Math.random() * 2) + "s";
+
+        document.body.appendChild(item);
+
+        setTimeout(() => {
+            item.remove();
+        }, duration * 1000);
+    }
+
+
+    /* =====================================================
+       قلب‌های پس‌زمینه
+    ===================================================== */
+
+    function createBackgroundHearts() {
+
+        for (let i = 0; i < 15; i++) {
+
+            const heart =
+                document.createElement("div");
+
+            heart.className =
+                "background-heart";
+
+            heart.innerText = "♡";
+
+            heart.style.left =
+                Math.random() * 100 + "vw";
+
+            heart.style.top =
+                Math.random() * 100 + "vh";
+
+            heart.style.fontSize =
+                (20 + Math.random() * 35) + "px";
+
+            heart.style.animationDelay =
+                Math.random() * 5 + "s";
+
+            document.body.appendChild(heart);
+        }
+    }
+
+</script>
+
+</body>
+</html>
+```
